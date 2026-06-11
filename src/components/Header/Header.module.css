@@ -56,12 +56,49 @@
   font-size: 0.92rem;
   color: #0b0a14;
   background: var(--accent-grad);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .cta:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 24px #7c5cff55;
+}
+
+.langSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.langButton {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    background 0.18s ease;
+}
+
+.langButton:hover {
+  color: var(--foreground);
+}
+
+.langActive {
+  color: #0b0a14;
+  background: var(--accent-grad);
+  pointer-events: none;
 }
 
 .burger {
@@ -78,7 +115,7 @@
 .burgerBar,
 .burgerBar::before,
 .burgerBar::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 50%;
   width: 18px;
@@ -86,7 +123,9 @@
   background: var(--foreground);
   border-radius: 2px;
   transform: translateX(-50%);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .burgerBar {
@@ -135,7 +174,9 @@
     transform: translateY(-12px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .navOpen {

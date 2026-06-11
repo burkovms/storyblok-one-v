@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 const columns = [
@@ -20,10 +21,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.brand}>
-          <a href="/" className={styles.logo}>
+          <Link href="/" className={styles.logo}>
             <span className={styles.logoMark} aria-hidden />
             Nebula
-          </a>
+          </Link>
           <p className={styles.tagline}>
             Analytics that turn signal into shipping decisions.
           </p>
@@ -36,9 +37,9 @@ export default function Footer() {
               <ul>
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className={styles.link}>
+                    <Link href="#" className={styles.link}>
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -50,9 +51,9 @@ export default function Footer() {
       <div className={`container ${styles.bottom}`}>
         <span>© 2026 Nebula, Inc. All rights reserved.</span>
         <div className={styles.legal}>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
+          <Link href="#">Privacy</Link>
+          <Link href="#">Terms</Link>
+          <Link href="#">Cookies</Link>
         </div>
       </div>
     </footer>

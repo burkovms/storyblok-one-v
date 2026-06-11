@@ -8,7 +8,7 @@ import { DEFAULT_PAGE } from "@/components/storyblok/defaultStory";
 // Switch to "published" + add revalidation for production traffic.
 const VERSION = "draft";
 
-async function fetchStory(slug: string): Promise<ISbStoryData | null> {
+async function fetchStory(slug: string, lang: string): Promise<ISbStoryData | null> {
   // No token configured yet → fall back to the built-in default page.
   if (!process.env.NEXT_PUBLIC_STORYBLOK_TOKEN) return null;
 
@@ -16,6 +16,10 @@ async function fetchStory(slug: string): Promise<ISbStoryData | null> {
     const storyblokApi = getStoryblokApi();
     const { data } = await storyblokApi.get(`cdn/stories/${slug}`, {
       version: VERSION,
+      // Field-level translations: Storyblok returns the `lang` translation per
+      // field, falling back to the default (English) where none exists. Passing
+      // the default code "en" (not a configured dimension) simply yields default.
+      language: lang,
       // Expand `global_reference` blocks: replace the stored story UUID with the
       // full referenced story so GlobalReference can render its content inline.
       resolve_relations: ["global_reference.reference"],
@@ -29,11 +33,13 @@ async function fetchStory(slug: string): Promise<ISbStoryData | null> {
 
 export default async function CatchAllPage({
   params,
-}: PageProps<"/[[...slug]]">) {
-  const { slug } = await params;
+}: {
+  params: Promise<{ lang: string; slug?: string[] }>;
+}) {
+  const { lang, slug } = await params;
   const path = slug?.join("/") || "home";
 
-  const story = await fetchStory(path);
+  const story = await fetchStory(path, lang);
   if (!story) {
     // Dev-friendly fallback so the site renders before any content exists.
     return <Page blok={DEFAULT_PAGE} />;
