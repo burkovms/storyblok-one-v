@@ -37,10 +37,7 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--foreground);
-  background:
-    radial-gradient(60rem 60rem at 80% -10%, #2a1f5e40, transparent 60%),
-    radial-gradient(50rem 50rem at -10% 10%, #0d3a5240, transparent 55%),
-    var(--background);
+  background: var(--background);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

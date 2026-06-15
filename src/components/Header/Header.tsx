@@ -11,6 +11,7 @@ const navLinks = [
   { to: '/about-us', label: 'About' },
   { to: '#features', label: 'Features' },
   { to: '#testimonials', label: 'Testimonials' },
+  { to: '/news', label: 'News' },
   { to: '#contact', label: 'Contact' },
 ];
 

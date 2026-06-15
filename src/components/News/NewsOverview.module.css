@@ -1,0 +1,19 @@
+.head {
+  padding: 96px 0 0;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.intro {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 620px;
+  margin-inline: auto;
+}

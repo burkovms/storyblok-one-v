@@ -1,4 +1,15 @@
-import type { SbBlokData, ISbStoryData } from "@storyblok/react/rsc";
+import type {
+  SbBlokData,
+  ISbStoryData,
+  StoryblokRichTextNode,
+} from "@storyblok/react/rsc";
+
+// Storyblok "Asset" field — an image/file picked in the editor.
+export interface StoryblokAsset {
+  filename?: string;
+  alt?: string;
+  title?: string;
+}
 
 export interface HeroBlok extends SbBlokData {
   badge?: string;
@@ -83,5 +94,24 @@ export interface GlobalReferenceBlok extends SbBlokData {
 }
 
 export interface PageBlok extends SbBlokData {
+  body?: SbBlokData[];
+}
+
+// A single News entry — the Storyblok "Content type" block `news_article`.
+// One Story of this type = one post; its slug (e.g. news/my-post) is the URL.
+export interface NewsArticleBlok extends SbBlokData {
+  title?: string;
+  date?: string; // Datetime field, ISO string
+  teaser?: string;
+  image?: StoryblokAsset;
+  content?: StoryblokRichTextNode; // Richtext field
+}
+
+// The News archive "chrome" — the Storyblok "Content type" block
+// `news_overview`. Editable heading, intro, and any nestable blocks the editor
+// adds; the automatic post list is rendered separately (NewsList).
+export interface NewsOverviewBlok extends SbBlokData {
+  title?: string;
+  intro?: string;
   body?: SbBlokData[];
 }
