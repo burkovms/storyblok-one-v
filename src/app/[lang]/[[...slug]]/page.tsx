@@ -45,32 +45,27 @@ export default async function CatchAllPage({
   const { lang, slug } = await params;
   const path = slug?.join("/") || "home";
 
-  // The News archive lives at /news. Storyblok can't host a story at a folder's
-  // own path, so the editable "chrome" (heading, intro, blocks) is a separate
-  // story `news-overview` whose Real path is set to /news in Storyblok. We render
-  // that story via StoryblokStory (gets the Visual Editor bridge) and append the
-  // automatic post list. If the story doesn't exist yet, fall back to a default
-  // heading so the page still works.
-  if (path === "news") {
-    const overview = await fetchStory("news-overview", lang);
-    const body = (overview?.content?.body ?? []) as SbBlokData[];
+  const story = await fetchStory(path, lang);
+  if (!story) {
+    // Dev-friendly fallback so the site renders before any content exists.
+    return <Page blok={DEFAULT_PAGE} />;
+  }
+
+  // The News archive is the `news` folder's start page (content type
+  // news_overview), so it resolves natively at /news while posts stay at
+  // /news/<slug>. Render its editable chrome (heading/intro) via StoryblokStory,
+  // then the automatic post list, then any blocks the editor added — below it.
+  if (story.content.component === "news_overview") {
+    const body = (story.content.body ?? []) as SbBlokData[];
     return (
       <>
-        {/* Editable heading (title + intro) above the list. */}
-        {overview && <StoryblokStory story={overview} />}
-        <NewsList lang={lang} heading={overview ? undefined : "News"} />
-        {/* Editable blocks render BELOW the post list. */}
+        <StoryblokStory story={story} />
+        <NewsList lang={lang} />
         {body.map((nested) => (
           <StoryblokServerComponent blok={nested} key={nested._uid} />
         ))}
       </>
     );
-  }
-
-  const story = await fetchStory(path, lang);
-  if (!story) {
-    // Dev-friendly fallback so the site renders before any content exists.
-    return <Page blok={DEFAULT_PAGE} />;
   }
 
   // StoryblokStory renders the story AND loads the bridge for live editing.
