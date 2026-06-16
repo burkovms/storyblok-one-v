@@ -21,17 +21,16 @@ export default function Contact({ blok = {} as ContactBlok }: { blok?: ContactBl
     <section className={styles.contact} id="contact" {...storyblokEditable(blok)}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.copy}>
-          <span className={styles.eyebrow}>{blok.eyebrow || "Get in touch"}</span>
-          <h2 className={styles.title}>{blok.title || "Ready to see Nebula in action?"}</h2>
-          <p className={styles.text}>
-            {blok.text ||
-              "Tell us a little about your team and we'll set up a personalized demo. No credit card, no pressure."}
-          </p>
-          <ul className={styles.contactList}>
-            <li>📧 {blok.email || "hello@nebula.example"}</li>
-            <li>📞 {blok.phone || "+1 (555) 012-3456"}</li>
-            <li>📍 {blok.location || "Remote-first, worldwide"}</li>
-          </ul>
+          {blok.eyebrow && <span className={styles.eyebrow}>{blok.eyebrow}</span>}
+          {blok.title && <h2 className={styles.title}>{blok.title}</h2>}
+          {blok.text && <p className={styles.text}>{blok.text}</p>}
+          {(blok.email || blok.phone || blok.location) && (
+            <ul className={styles.contactList}>
+              {blok.email && <li>📧 {blok.email}</li>}
+              {blok.phone && <li>📞 {blok.phone}</li>}
+              {blok.location && <li>📍 {blok.location}</li>}
+            </ul>
+          )}
         </div>
 
         <div className={styles.formWrap}>

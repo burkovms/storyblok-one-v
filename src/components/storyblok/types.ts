@@ -97,6 +97,21 @@ export interface PageBlok extends SbBlokData {
   body?: SbBlokData[];
 }
 
+// A single navigation item inside the header — the Storyblok block `nav_link`.
+// `link` is a plain path appended to the active locale, matching the existing
+// convention: "/about-us" → "/en/about-us", "#features" → "/en#features".
+export interface NavLinkBlok extends SbBlokData {
+  label?: string;
+  link?: string;
+}
+
+// Global site config — the Storyblok "Content type" block `config`, stored in a
+// single story (slug "config"). Fetched in the layout and shared by every page.
+// For now it only carries the header nav; add footer/social fields here later.
+export interface ConfigBlok extends SbBlokData {
+  nav_links?: NavLinkBlok[];
+}
+
 // A single News entry — the Storyblok "Content type" block `news_article`.
 // One Story of this type = one post; its slug (e.g. news/my-post) is the URL.
 export interface NewsArticleBlok extends SbBlokData {

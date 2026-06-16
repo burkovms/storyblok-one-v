@@ -1,9 +1,10 @@
 import type { PageBlok } from "./types";
 
 // Rendered when no matching Storyblok story exists yet (e.g. before you create
-// content in your Space). Each blok has empty fields, so every section falls
-// back to its built-in default copy and the site looks identical to the static
-// version. Once you create a "home" story in Storyblok, real content takes over.
+// content in your Space). The bloks below have empty fields — and since each
+// component now renders only the fields that are filled, these sections appear
+// empty until you add content. Once you create a "home" story in Storyblok with
+// real field values, that content takes over.
 export const DEFAULT_PAGE: PageBlok = {
   _uid: "default-page",
   component: "page",

@@ -3,16 +3,19 @@
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { storyblokEditable } from '@storyblok/react';
 import styles from './Header.module.css';
+import type { NavLinkBlok } from '@/components/storyblok/types';
 
-// `to` is appended to the current locale: "/about-us" → "/en/about-us",
+// `link` is appended to the current locale: "/about-us" → "/en/about-us",
 // "#features" → "/en#features" (the section lives on the locale home page).
-const navLinks = [
-  { to: '/about-us', label: 'About' },
-  { to: '#features', label: 'Features' },
-  { to: '#testimonials', label: 'Testimonials' },
-  { to: '/news', label: 'News' },
-  { to: '#contact', label: 'Contact' },
+// Used when Storyblok has no "config" story yet, so the header still renders.
+const fallbackNavLinks: NavLinkBlok[] = [
+  { _uid: 'fallback-about', component: 'nav_link', link: '/about-us', label: 'About' },
+  { _uid: 'fallback-features', component: 'nav_link', link: '#features', label: 'Features' },
+  { _uid: 'fallback-testimonials', component: 'nav_link', link: '#testimonials', label: 'Testimonials' },
+  { _uid: 'fallback-news', component: 'nav_link', link: '/news', label: 'News' },
+  { _uid: 'fallback-contact', component: 'nav_link', link: '#contact', label: 'Contact' },
 ];
 
 const languages = [
@@ -20,8 +23,9 @@ const languages = [
   { code: 'uk', label: 'UK' },
 ];
 
-export default function Header() {
+export default function Header({ navLinks }: { navLinks?: NavLinkBlok[] }) {
   const [open, setOpen] = useState(false);
+  const links = navLinks?.length ? navLinks : fallbackNavLinks;
   const pathname = usePathname();
   const router = useRouter();
 
@@ -48,12 +52,13 @@ export default function Header() {
         </Link>
 
         <nav className={`${styles.nav} ${open ? styles.navOpen : ''}`}>
-          {navLinks.map((link) => (
+          {links.map((link, i) => (
             <Link
-              key={link.to}
-              href={`/${currentLang}${link.to}`}
+              key={link._uid ?? i}
+              href={`/${currentLang}${link.link ?? ''}`}
               className={styles.navLink}
               onClick={() => setOpen(false)}
+              {...storyblokEditable(link)}
             >
               {link.label}
             </Link>
