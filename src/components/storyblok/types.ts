@@ -107,9 +107,13 @@ export interface NavLinkBlok extends SbBlokData {
 
 // Global site config — the Storyblok "Content type" block `config`, stored in a
 // single story (slug "config"). Fetched in the layout and shared by every page.
-// For now it only carries the header nav; add footer/social fields here later.
+// For now it carries the logo + header nav + CTA; add footer/social fields here
+// later. `logo` is shared by the header and footer.
 export interface ConfigBlok extends SbBlokData {
+  logo?: StoryblokAsset;
   nav_links?: NavLinkBlok[];
+  cta_label?: string;
+  cta_link?: string; // path appended to the locale, e.g. "#contact" or "/contact"
 }
 
 // A single News entry — the Storyblok "Content type" block `news_article`.

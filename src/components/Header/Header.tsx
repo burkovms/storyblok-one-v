@@ -5,17 +5,42 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { storyblokEditable } from '@storyblok/react';
 import styles from './Header.module.css';
-import type { NavLinkBlok } from '@/components/storyblok/types';
+import type { NavLinkBlok, StoryblokAsset } from '@/components/storyblok/types';
 
 // `link` is appended to the current locale: "/about-us" → "/en/about-us",
 // "#features" → "/en#features" (the section lives on the locale home page).
 // Used when Storyblok has no "config" story yet, so the header still renders.
 const fallbackNavLinks: NavLinkBlok[] = [
-  { _uid: 'fallback-about', component: 'nav_link', link: '/about-us', label: 'About' },
-  { _uid: 'fallback-features', component: 'nav_link', link: '#features', label: 'Features' },
-  { _uid: 'fallback-testimonials', component: 'nav_link', link: '#testimonials', label: 'Testimonials' },
-  { _uid: 'fallback-news', component: 'nav_link', link: '/news', label: 'News' },
-  { _uid: 'fallback-contact', component: 'nav_link', link: '#contact', label: 'Contact' },
+  {
+    _uid: 'fallback-about',
+    component: 'nav_link',
+    link: '/about-us',
+    label: 'About',
+  },
+  {
+    _uid: 'fallback-features',
+    component: 'nav_link',
+    link: '#features',
+    label: 'Features',
+  },
+  {
+    _uid: 'fallback-testimonials',
+    component: 'nav_link',
+    link: '#testimonials',
+    label: 'Testimonials',
+  },
+  {
+    _uid: 'fallback-news',
+    component: 'nav_link',
+    link: '/news',
+    label: 'News',
+  },
+  {
+    _uid: 'fallback-contact',
+    component: 'nav_link',
+    link: '#contact',
+    label: 'Contact',
+  },
 ];
 
 const languages = [
@@ -23,7 +48,19 @@ const languages = [
   { code: 'uk', label: 'UK' },
 ];
 
-export default function Header({ navLinks }: { navLinks?: NavLinkBlok[] }) {
+export default function Header({
+  logo,
+  navLinks,
+  ctaLabel,
+  ctaLink,
+}: {
+  logo?: StoryblokAsset;
+  navLinks?: NavLinkBlok[];
+  ctaLabel?: string;
+  ctaLink?: string;
+}) {
+  // Storyblok asset when set, else the bundled default SVG.
+  const logoSrc = logo?.filename || '/logo.svg';
   const [open, setOpen] = useState(false);
   const links = navLinks?.length ? navLinks : fallbackNavLinks;
   const pathname = usePathname();
@@ -47,8 +84,8 @@ export default function Header({ navLinks }: { navLinks?: NavLinkBlok[] }) {
           className={styles.logo}
           onClick={() => setOpen(false)}
         >
-          <span className={styles.logoMark} aria-hidden />
-          Nebula
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className={styles.logoImg} src={logoSrc} alt={logo?.alt || 'Nebula'} />
         </Link>
 
         <nav className={`${styles.nav} ${open ? styles.navOpen : ''}`}>
@@ -63,13 +100,15 @@ export default function Header({ navLinks }: { navLinks?: NavLinkBlok[] }) {
               {link.label}
             </Link>
           ))}
-          <Link
-            href={`/${currentLang}#contact`}
-            className={styles.cta}
-            onClick={() => setOpen(false)}
-          >
-            Get started
-          </Link>
+          {ctaLabel && (
+            <Link
+              href={`/${currentLang}${ctaLink || '#contact'}`}
+              className={styles.cta}
+              onClick={() => setOpen(false)}
+            >
+              {ctaLabel}
+            </Link>
+          )}
 
           <div className={styles.langSwitch} role="group" aria-label="Language">
             {languages.map((lang) => (

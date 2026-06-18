@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
+import type { StoryblokAsset } from '@/components/storyblok/types';
 
 const columns = [
   {
@@ -16,14 +17,21 @@ const columns = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({ logo }: { logo?: StoryblokAsset }) {
+  // Storyblok asset when set, else the bundled default SVG.
+  const logoSrc = logo?.filename || '/logo.svg';
+
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.brand}>
           <Link href="/" className={styles.logo}>
-            <span className={styles.logoMark} aria-hidden />
-            Nebula
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.logoImg}
+              src={logoSrc}
+              alt={logo?.alt || 'Nebula'}
+            />
           </Link>
           <p className={styles.tagline}>
             Analytics that turn signal into shipping decisions.

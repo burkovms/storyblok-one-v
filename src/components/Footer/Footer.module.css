@@ -14,18 +14,12 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
 }
 
-.logoMark {
-  width: 22px;
-  height: 22px;
-  border-radius: 7px;
-  background: var(--accent-grad);
-  box-shadow: 0 0 18px #7c5cff80;
+.logoImg {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 .tagline {

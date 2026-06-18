@@ -57,7 +57,6 @@ export default async function RootLayout({
   const { lang } = await params;
   const config = await fetchConfig(lang);
   const navLinks: NavLinkBlok[] = config?.nav_links ?? [];
-
   return (
     <StoryblokProvider>
       <html
@@ -66,9 +65,14 @@ export default async function RootLayout({
         data-scroll-behavior="smooth"
       >
         <body>
-          <Header navLinks={navLinks} />
+          <Header
+            logo={config?.logo}
+            navLinks={navLinks}
+            ctaLabel={config?.cta_label}
+            ctaLink={config?.cta_link}
+          />
           {children}
-          <Footer />
+          <Footer logo={config?.logo} />
         </body>
       </html>
     </StoryblokProvider>
